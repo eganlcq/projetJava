@@ -2,7 +2,7 @@ package main.states;
 
 import java.awt.Graphics;
 
-import main.Game;
+import main.Handler
 import main.entities.Player;
 import main.tiles.Tile;
 import main.worlds.World;
@@ -22,11 +22,11 @@ public class GameState extends State {
 	/**
 	 * Initialise une nouvelle state de gameplay
 	 */
-	public GameState(Game game) {
-		super(game);
+	public GameState(Handler handler) {
+		super(handler);
 		// Crée un nouveau joueur commencant en (100;100)
-		player = new Player(game, 100, 100);
-		world = new World(game, "res/worlds/test.txt");
+		player = new Player(handler, 100, 100);
+		world = new World(handler, "res/worlds/test.txt");
 	}
 	
 	/**
