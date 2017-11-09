@@ -2,7 +2,7 @@ package main.entities;
 
 import java.awt.Graphics;
 
-import main.Game;
+import main.Handler;
 
 /**
  * Cette classe représente une entité
@@ -11,8 +11,9 @@ import main.Game;
  */
 public abstract class Entity {
 
-	// Les données de jeu (permet d'entrer dans le fil d'exécution courant du jeu)
-	protected Game game;
+	// Handler comportant les données de jeu 
+	// Permet d'entrer dans le fil d'exécution courant du jeu
+	protected Handler handler;
 	// L'abscisse de l'entité
 	protected float x;
 	// L'ordonnée de l'entité
@@ -27,8 +28,8 @@ public abstract class Entity {
 	 * @param x : l'abscisse de l'entité
 	 * @param y : l'ordonnée de l'entité
 	 */
-	public Entity(Game game, float x, float y, int width, int height) {
-		this.game = game;
+	public Entity(Handler handler, float x, float y, int width, int height) {
+		this.handler = handler;
 		this.x = x;
 		this.y = y;
 		this.width = width;
