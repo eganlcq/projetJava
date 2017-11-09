@@ -2,7 +2,7 @@ package main.entities;
 
 import java.awt.Graphics;
 
-import main.Game;
+import main.Handler;
 import main.gfx.Assets;
 
 /**
@@ -14,12 +14,12 @@ public class Player extends MobileEntity {
 
 	/**
 	 * Initialise un nouveau joueur
-	 * @param game : permettra d'accéder aux input du clavier
+	 * @param handler : permettra d'accéder aux données du jeu
 	 * @param x : l'abscisse du joueur
 	 * @param y : l'ordonnée du joueur
 	 */
-	public Player(Game game, float x, float y) {
-		super(game, x, y, MobileEntity.DEFAULT_WIDTH, MobileEntity.DEFAULT_HEIGHT);
+	public Player(Handler handler, float x, float y) {
+		super(handler, x, y, MobileEntity.DEFAULT_WIDTH, MobileEntity.DEFAULT_HEIGHT);
 	}
 
 	/**
@@ -39,13 +39,13 @@ public class Player extends MobileEntity {
 		yMove = 0;
 		
 		// Si la touche up est pressée, yMove vaut -3 (la vitesse par défaut)
-		if(game.getKeyManager().up) yMove = -speed;
+		if(handler.getKeyManager().up) yMove = -speed;
 		// Si la touche down est pressée, yMove vaut 3 (la vitesse par défaut)
-		if(game.getKeyManager().down) yMove = speed;
+		if(handler.getKeyManager().down) yMove = speed;
 		// Si la touche left est pressée, xMove vaut -3 (la vitesse par défaut)
-		if(game.getKeyManager().left) xMove = -speed;
+		if(handler.getKeyManager().left) xMove = -speed;
 		// Si la touche right est pressée, xMove vaut -3 (la vitesse par défaut)
-		if(game.getKeyManager().right) xMove = speed;
+		if(handler.getKeyManager().right) xMove = speed;
 	}
 
 	/**
