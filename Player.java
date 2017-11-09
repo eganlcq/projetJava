@@ -20,6 +20,15 @@ public class Player extends MobileEntity {
 	 */
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, MobileEntity.DEFAULT_WIDTH, MobileEntity.DEFAULT_HEIGHT);
+		
+		// Position horizontale de la hitbox par rapport au joueur
+		bounds.x = 0;
+		// Position verticale de la hitbox par rapport au joueur
+		bounds.y = 0;
+		// Largeur de la hitbox
+		bounds.width = 17;
+		// Hauteur de la hitbox
+		bounds.height = 17;
 	}
 
 	/**
