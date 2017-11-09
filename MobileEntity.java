@@ -37,18 +37,80 @@ public abstract class MobileEntity extends Entity {
 	}
 	
 	/**
-	 * Permet d'effectuer le déplacement des entité
-	 */
+	* Permet d'effectuer le déplacement des entité
+	*/
 	public void move() {
-		// Déplacements horizontals de l'entité
-		x += xMove;
-		// Déplacement verticals de l'entité
-		y += yMove;
+		moveX();
+		moveY();
+	}
+	
+	/**
+	* Permet d'effectuer le déplacement horizontal
+	*/
+	public void moveX() {
+		// Déplacement vers la droite
+		if(xMove > 0) {
+			// Renvoie la postion de la case vers laquelle on veut se diriger
+			int tx = (int) (x + xMove + bounds.x + bounds.width) / Tile.TILEWIDTH;
+			// Vérifie si il n'y a pas de collision avec le côté droit de la hitbox
+			if(!collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT) &&
+					!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)) {
+				x += xMove;
+			}
+			
+		}
+		// Déplacement vers la gauche
+		else if(xMove < 0) {
+			// Renvoie la postion de la case vers laquelle on veut se diriger
+			int tx = (int) (x + xMove + bounds.x) / Tile.TILEWIDTH;
+			// Vérifie si il n'y a pas de collision avec le côté gauche de la hitbox
+			if(!collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT) &&
+					!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)) {
+				x += xMove;
+			}
+		}
+	}
+	
+	/**
+	* Permet d'effectuer le déplacement vertical
+	*/
+	public void moveY() {
+		// Déplacement vers le bas
+		if(yMove > 0) {
+			// Renvoie la postion de la case vers laquelle on veut se diriger
+			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
+			// Vérifie si il n'y a pas de collision avec le côté bas de la hitbox
+			if(!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, ty) &&
+					!collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, ty)) {
+				y += yMove;
+			}
+					
+		}
+		// Déplacement vers le haut
+		else if(yMove < 0) {
+			// Renvoie la postion de la case vers laquelle on veut se diriger
+			int ty = (int) (y + yMove + bounds.y) / Tile.TILEHEIGHT;
+			// Vérifie si il n'y a pas de collision avec le côté haut de la hitbox
+			if(!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, ty) &&
+					!collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, ty)) {
+				y += yMove;
+			}
+		}
+	}
+	
+	/**
+	 * Permet de déterminer si une case précise est traversable où non
+	 * @param x : la postion horizontale de la case
+	 * @param y : la postition verticale de la case
+	 * @return true si la case est solide, false sinon
+	 */
+	protected boolean collisionWithTile(int x, int y) {
+		return handler.getWorld().getTile(x, y).isSolid();
 	}
 
 	/**
-	 * @return la valeur de la vitesse de l'entité
-	 */
+	* @return la valeur de la vitesse de l'entité
+	*/
 	public float getSpeed() {
 		return speed;
 	}
