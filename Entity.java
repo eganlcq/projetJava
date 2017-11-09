@@ -1,6 +1,7 @@
 package main.entities;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import main.Handler;
 
@@ -22,6 +23,8 @@ public abstract class Entity {
 	protected int width;
 	// La hauteur de l'entité
 	protected int height;
+	// Représente un rectangle qui sera la hitbox de l'entité
+	protected Rectangle bounds;
 	
 	/**
 	 * Initialise une nouvelle entité
@@ -34,6 +37,8 @@ public abstract class Entity {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		
+		bounds = new Rectangle(0, 0, width, height);
 	}
 	
 	/**
