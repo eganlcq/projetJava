@@ -8,6 +8,7 @@ import main.input.KeyManager;
 import main.states.GameState;
 import main.states.State;
 import main.states.StateManager;
+import main.Handler
 
 /**
  * Classe principale pour la création du jeu
@@ -43,6 +44,9 @@ public class Game implements Runnable {
 	// Déclaration d'un key manager
 	private KeyManager keyManager;
 	
+	// Déclaration d'un nouveau handler
+	private Handler handler;
+	
 	/**
 	 * Création des options du jeu
 	 * @param title : titre
@@ -66,6 +70,9 @@ public class Game implements Runnable {
 		display.getFrame().addKeyListener(keyManager);
 		// Initialise tout le contenu une seule fois avant de faire tourner le jeu
 		Assets.init();
+		
+		// Initialisation d'un nouveau handler
+		handler = new Handler(this);
 		
 		// Initialisation d'une state de gameplay
 		gameState = new GameState(this);
