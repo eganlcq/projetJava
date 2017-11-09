@@ -1,6 +1,6 @@
 package main.entities;
 
-import main.Game;
+import main.Handler
 import main.entities.Entity;
 
 /**
@@ -29,7 +29,7 @@ public abstract class MobileEntity extends Entity {
 	 * @param x : l'abscisse de l'entité
 	 * @param y : l'ordonnée de l'entité
 	 */
-	public MobileEntity(Game game, float x, float y, int width, int height) {
+	public MobileEntity(Handler handler, float x, float y, int width, int height) {
 		super(game, x, y, width, height);
 		speed = DEFAULT_SPEED;
 		xMove = 0;
