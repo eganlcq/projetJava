@@ -12,4 +12,11 @@ public class BackgroundTile extends Tile{
 	public BackgroundTile(int id) {
 		super(Assets.background, id);
 	}
+	
+	/**
+	* La case n'est pas traversable
+	*/
+	public boolean isSolid() {
+		return true;
+	}
 }
