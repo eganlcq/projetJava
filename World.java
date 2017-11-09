@@ -2,7 +2,7 @@ package main.worlds;
 
 import java.awt.Graphics;
 
-import main.Game;
+import main.Handler;
 import main.tiles.Tile;
 import main.utils.Utils;
 
@@ -13,8 +13,9 @@ import main.utils.Utils;
  */
 public class World {
 
-	// Les données de jeu (permet d'entrer dans le fil d'exéction courant du jeu)
-	private Game game;
+	// Handler comportante les données de jeu 
+	// Permet d'entrer dans le fil d'exéction courant du jeu
+	private Handler handler;
 	// La largeur du monde
 	private int width;
 	// La hauteur du monde
@@ -30,8 +31,8 @@ public class World {
 	 * Initialise le monde dans lequel le joueur avancera
 	 * @param path : le chemin où se trouve le monde dans les fichiers
 	 */
-	public World(Game game, String path) {
-		this.game = game;
+	public World(Handler handler, String path) {
+		this.handler = handler;
 		loadWorld(path);
 	}
 	 /**
