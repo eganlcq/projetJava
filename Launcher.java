@@ -13,20 +13,22 @@ import view.GameViewGUI;
 public class Launcher {
 
 	public static void main(String[] args) {
-		// Création du modèle
-		Game model = new Game("Pète une case !", 800, 600);
+		// CrÃ©ation du modÃ¨le
+		Game model = new Game("PÃ¨te une case !", 800, 600);
 		model.init();
-		// Création des contrôleurs : un pour chaque vue
-		// Chaque contrôleur doit avoir une référence vers le modèle pour pouvoir le commander
-		GameController ctrlGUI = new GameController(model);
+		//CrÃ©ation des contrÃ´leurs : un pour chaque vue
+		//Chaque contrÃ´leur doit avoir une rÃ©fÃ©rence vers le modÃ¨le pour pouvoir le commander
+		//GameController ctrlGUI = new GameController(model);										///!\/!\/!\
 		GameController ctrlConsole = new GameController(model);
-		// Création des vues
-		// Chaque vue doit connaître son contrôleur et avoir une référence vers le modèle
-		GameViewGUI GUI = new GameViewGUI(model, ctrlGUI);
+		// CrÃ©ation des vues
+		// Chaque vue doit connaÃ®tre son contrÃ´leur et avoir une rÃ©fÃ©rence vers le modÃ¨le
+		//GameViewGUI GUI = new GameViewGUI(model, ctrlGUI);										///!\/!\/!\
 		GameViewConsole console = new GameViewConsole(model, ctrlConsole);
-		// On donne la référence à la vue pour chaque contrôleur
-		ctrlGUI.addView(GUI);
+		// On donne la rÃ©fÃ©rence Ã  la vue pour chaque contrÃ´leur
+		//ctrlGUI.addView(GUI);																		///!\/!\/!\
 		ctrlConsole.addView(console);
 	}
 	
 }
+
+
