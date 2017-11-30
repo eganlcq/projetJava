@@ -1,10 +1,11 @@
 package main.worlds;
 
+import main.console.MobConsole;
 import main.utils.Utils;
 import model.Game;
 
 /**
- * Cette classe représente la map générée en console
+ * Cette classe reprÃ©sente la map gÃ©nÃ©rÃ©e en console
  * @author Octikoros
  *
  */
@@ -16,29 +17,33 @@ public class WorldConsole{
 	private int height;
 	// Tableau comportant toutes les cases de la map
 	private String[][] grid;
-	// Le jeu dans lequel la map va se générer
+	// Le jeu dans lequel la map va se gÃ©nÃ©rer
 	private Game game;
+	
+	private static int id = 0;
 	
 	/**
 	 * Initialisation d'une nouvelle map
-	 * @param game : le jeu dans lequel la map va se générer
-	 * @param path : le chemin permettant d'accéder au fichier texte de la map
+	 * @param game : le jeu dans lequel la map va se gÃ©nÃ©rer
+	 * @param path : le chemin permettant d'accÃ©der au fichier texte de la map
 	 */
 	public WorldConsole(Game game, String path) {
 		this.game = game;
 		loadWorld(path);
+		
+		id++;
 	}
 	
 	/**
-	 * Affiche les éléments mis à jour
+	 * Affiche les Ã©lÃ©ments mis Ã  jour
 	 */
 	public void render() {
 		System.out.println(generateWorld());
 	}
 	
 	/**
-	 * Charge le monde en mémoire
-	 * @param path : le chemin permettant d'accéder au fichier texte de la map
+	 * Charge le monde en mÃ©moire
+	 * @param path : le chemin permettant d'accÃ©der au fichier texte de la map
 	 */
 	public void loadWorld(String path) {
 		String file = Utils.loadFileAsString(path);
@@ -54,12 +59,13 @@ public class WorldConsole{
 		}
 		
 		grid[game.getPlayerCon().getX()][game.getPlayerCon().getY()] = "P";
-		grid[game.getMobCon().getX()][game.getMobCon().getY()] = "O";
-		grid[game.getMobCon2().getX()][game.getMobCon2().getY()] = "O";
+		for(MobConsole mob : game.getArrayList()) {
+			grid[mob.getX()][mob.getY()] = "O";
+		}
 	}
 	
 	/**
-	 * @return la map générée
+	 * @return la map gÃ©nÃ©rÃ©e
 	 */
 	public String generateWorld() {
 		String map = "";
@@ -72,7 +78,7 @@ public class WorldConsole{
 	}
 	
 	/**
-	 * Vérifie les collisions avec un mur
+	 * VÃ©rifie les collisions avec un mur
 	 * @return true si oui, false si non
 	 */
 	public boolean notWalkable() {
@@ -80,7 +86,7 @@ public class WorldConsole{
 	}
 	
 	/**
-	 * Vérifie la collision avec la case d'arrivée
+	 * VÃ©rifie la collision avec la case d'arrivÃ©e
 	 * @return true si oui, false si non
 	 */
 	public boolean flagged() {
@@ -108,6 +114,9 @@ public class WorldConsole{
 		return grid;
 	}
 	
-	
+	public int getId() {
+		return id;
+	}
 	
 }
+
