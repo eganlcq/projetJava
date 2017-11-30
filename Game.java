@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 import java.util.Observable;
 
 import main.console.MobConsole;
@@ -14,26 +15,26 @@ import main.worlds.WorldConsole;
 import main.worlds.WorldGUI;
 
 /**
- * Cette classe représente le modèle de l'architecture MVC
+ * Cette classe reprÃ©sente le modÃ¨le de l'architecture MVC
  * @author Octikoros
  *
  */
 public class Game extends Observable{
 	
-	// La fenêtre
+	// La fenÃªtre
 	private Display display;
 	
-	// Le titre de la fenêtre
+	// Le titre de la fenÃªtre
 	private String title;
-	// La largeur de la fenêtre
+	// La largeur de la fenÃªtre
 	private int width;
-	// La hauteur de la fenêtre
+	// La hauteur de la fenÃªtre
 	private int height;
 	
-	// Permet d'organiser la mémoire d'un canvas où d'une fenêtre
-	// Indique le nombre de buffers utilisés
+	// Permet d'organiser la mÃ©moire d'un canvas oÃ¹ d'une fenÃªtre
+	// Indique le nombre de buffers utilisÃ©s
 	public BufferStrategy bs;
-	// Permet à l'application d'afficher du contenu sur divers éléments tel qu'un canvas
+	// Permet Ã  l'application d'afficher du contenu sur divers Ã©lÃ©ments tel qu'un canvas
 	public Graphics g;
 	
 	// La map en interface graphique
@@ -47,14 +48,13 @@ public class Game extends Observable{
 	// Le joueur en console
 	private PlayerConsole playerCon;
 	// Les ennemis en console
-	private MobConsole mobCon;
-	private MobConsole mobCon2;
+	private ArrayList<MobConsole> arrayMob;
 	
 	/**
 	 * Initialisation du jeu
-	 * @param title : titre de la fenêtre
-	 * @param width : largeur de la fenêtre
-	 * @param height : hauteur de la fenêtre
+	 * @param title : titre de la fenÃªtre
+	 * @param width : largeur de la fenÃªtre
+	 * @param height : hauteur de la fenÃªtre
 	 */
 	public Game(String title, int width, int height) {
 		this.title = title;
@@ -63,42 +63,51 @@ public class Game extends Observable{
 	}
 	
 	/**
-	 * Initialisation des données du jeu
+	 * Initialisation des donnÃ©es du jeu
 	 */
 	public void init() {
-		display = new Display(title, width, height);
-		Assets.init();
+		//display = new Display(title, width, height);								/!\/!\/!\
+		//Assets.init();															/!\/!\/!\
 		playerCon = new PlayerConsole(this, 7, 2);
-		mobCon = new MobConsole(this, 7, 5, "right");
-		mobCon2 = new MobConsole(this, 22, 8, "up");
-		worldGUI = new WorldGUI("res/worlds/testGUI.txt");
+		arrayMob = new ArrayList<MobConsole>();
+		setMob();
+		//worldGUI = new WorldGUI("res/worlds/testGUI.txt");						/!\/!\/!\
 		worldConsole = new WorldConsole(this, "res/worlds/testConsole.txt");
-		player = new Player(this, 100, 100);
-		mob = new Mob(this, 100, 200, "right");
-		initRender();
+		//player = new Player(this, 100, 100);										/!\/!\/!\
+		//mob = new Mob(this, 100, 200, "right");									/!\/!\/!\
+		//initRender();																/!\/!\/!\
 		initConsole();
 	}
 	
+	public void setMob() {
+		for(MobConsole mob : arrayMob) {
+			mob.running = false;
+		}
+		arrayMob.removeAll(arrayMob);
+		arrayMob.add(new MobConsole(this, 7, 5, "right"));
+		arrayMob.add(new MobConsole(this, 22, 8, "up"));
+	}
+	
 	/**
-	 * Premier affichage après initialisation de la fenêtre
+	 * Premier affichage aprÃ¨s initialisation de la fenÃªtre
 	 */
 	public void initRender() {
-		// Initialise "bs" avec le type d'organisation de mémoire courante du canvas
+		// Initialise "bs" avec le type d'organisation de mÃ©moire courante du canvas
 		// Contiendra entre autre le nombre de buffers que le canvas utilisera
 		bs = display.getCanvas().getBufferStrategy();
-		// Si le canvas ne possède aucun buffers
+		// Si le canvas ne possÃ¨de aucun buffers
 		if(bs == null) {
-			// Crée 3 buffers que le canvas utilisera
+			// CrÃ©e 3 buffers que le canvas utilisera
 			display.getCanvas().createBufferStrategy(3);
 			initRender();
 		}
 		// Initialise "g" avec un espace graphique dans lequel un buffer peut "dessiner"
 		g = bs.getDrawGraphics();
-		// Nettoie une partie définie de l'esapce graphique
-		// Ici c'est l'entièreté de la fenêtre
+		// Nettoie une partie dÃ©finie de l'esapce graphique
+		// Ici c'est l'entiÃ¨retÃ© de la fenÃªtre
 		g.clearRect(0, 0, width, height);
 		
-		// Début affichage
+		// DÃ©but affichage
 		
 		
 		worldGUI.render(g);
@@ -108,22 +117,22 @@ public class Game extends Observable{
 				
 		// Fin affichage
 		
-		// Affiche le contenu du buffer à l'écran
-		// Le contenu étant l'espace graphique
+		// Affiche le contenu du buffer Ã  l'Ã©cran
+		// Le contenu Ã©tant l'espace graphique
 		bs.show();
-		// Se débarasser de l'espace graphique en mémoire
+		// Se dÃ©barasser de l'espace graphique en mÃ©moire
 		g.dispose();
 	}
 	
 	/**
-	 * Affiche la map en console lors de la première frame
+	 * Affiche la map en console lors de la premiÃ¨re frame
 	 */
 	public void initConsole(){
 		worldConsole.render();
 	}
 	
 	/**
-	 * Permet de déplacer le joueur
+	 * Permet de dÃ©placer le joueur
 	 */
 	public void movePlayer() {
 		player.moveX();
@@ -137,7 +146,7 @@ public class Game extends Observable{
 	}
 	
 	/**
-	 * Permet le déplacement du mob
+	 * Permet le dÃ©placement du mob
 	 */
 	public void moveMob() {
 		if(player.collisionEntity()) {
@@ -149,22 +158,31 @@ public class Game extends Observable{
 	}
 	
 	/**
-	 * Affiche la console avec les éléments mis à jour
+	 * Affiche la console avec les Ã©lÃ©ments mis Ã  jour
 	 */
 	public void generateCon() {
 		if(worldConsole.flagged()) {
-			worldConsole.getGrid()[4][8] = "B";
-			worldConsole.getGrid()[7][8] = "I";
-			worldConsole.getGrid()[10][8] = "E";
-			worldConsole.getGrid()[13][8] = "N";
-			worldConsole.getGrid()[19][8] = "J";
-			worldConsole.getGrid()[22][8] = "O";
-			worldConsole.getGrid()[25][8] = "U";
-			worldConsole.getGrid()[28][8] = "E";
-			worldConsole.getGrid()[playerCon.getX()][playerCon.getY()] = "P";
-			setChanged();
-			notifyObservers();
-			System.exit(0);
+			if(worldConsole.getId() == 2) {
+				worldConsole.getGrid()[4][11] = "B";
+				worldConsole.getGrid()[7][11] = "I";
+				worldConsole.getGrid()[10][11] = "E";
+				worldConsole.getGrid()[13][11] = "N";
+				worldConsole.getGrid()[19][11] = "J";
+				worldConsole.getGrid()[22][11] = "O";
+				worldConsole.getGrid()[25][11] = "U";
+				worldConsole.getGrid()[28][11] = "E";
+				worldConsole.getGrid()[playerCon.getX()][playerCon.getY()] = "P";
+				setChanged();
+				notifyObservers();
+				System.exit(0);
+			}
+			else{
+				playerCon = new PlayerConsole(this, 7, 2);
+				setMob();
+				worldConsole = new WorldConsole(this, "res/worlds/testConsole2.txt");
+				initConsole();
+			}
+			
 		}
 		else{
 			worldConsole.getGrid()[playerCon.getX()][playerCon.getY()] = "P";
@@ -174,70 +192,60 @@ public class Game extends Observable{
 	}
 	
 	/**
-	 * @return la map en interface graphique utilisée par le jeu
+	 * @return la map en interface graphique utilisÃ©e par le jeu
 	 */
 	public WorldGUI getWorldGUI() {
 		return worldGUI;
 	}
 	
 	/**
-	 * @return la map en console utilisée par la jeu
+	 * @return la map en console utilisÃ©e par la jeu
 	 */
 	public WorldConsole getWorldConsole() {
 		return worldConsole;
 	}
 	
 	/**
-	 * @return le joueur utilisé par le jeu
+	 * @return le joueur utilisÃ© par le jeu
 	 */
 	public Player getPlayer() {
 		return player;
 	}
 	
 	/**
-	 * @return l'ennemi utilisé par le jeu
+	 * @return l'ennemi utilisÃ© par le jeu
 	 */
 	public Mob getMob() {
 		return mob;
 	}
 	
 	/**
-	 * @return le joueur console utilisé par le jeu
+	 * @return le joueur console utilisÃ© par le jeu
 	 */
 	public PlayerConsole getPlayerCon() {
 		return playerCon;
 	}
 	
-	/**
-	 * @return l'ennemi numéro 1 en console utilisé par le jeu
-	 */
-	public MobConsole getMobCon() {
-		return mobCon;
-	}
-	
-	/**
-	 * @return l'ennemi numéro 2 en console utilisé par le jeu
-	 */
-	public MobConsole getMobCon2() {
-		return mobCon2;
+	public ArrayList<MobConsole> getArrayList(){
+		return arrayMob;
 	}
 
 	/**
-	 * @return la fenêtre courante
+	 * @return la fenÃªtre courante
 	 */
 	public Display getDisplay() {
 		return display;
 	}
 	
 	/**
-	 * @return la largeur de la fenêtre
+	 * @return la largeur de la fenÃªtre
 	 */
 	public int getWidth() {
 		return width;
 	}
 	
 	/**
-	 * @return la hauteur de la fenêtre
+	 * @return la hauteur de la fenÃªtre
 	 */
 	public int getHeight() {
 		return height;
