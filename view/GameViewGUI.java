@@ -55,6 +55,8 @@ public class GameViewGUI extends GameView implements KeyListener{
 		pushed = false;
 		model.getPlayer().setxMove(0);
 		model.getPlayer().setyMove(0);
+		model.getPlayer().setxMoveCon(0);
+		model.getPlayer().setyMoveCon(0);
 	}
 
 	@Override
@@ -77,9 +79,9 @@ public class GameViewGUI extends GameView implements KeyListener{
 		// Début affichage
 		
 		
-		model.getWorldGUI().render(model.g);
-		model.getPlayer().render(model.g);
-		model.getMob().render(model.g);
+		model.getWorld().renderGUI(model.g);
+		model.getPlayer().renderGUI(model.g);
+		model.getMob().renderGUI(model.g);
 		
 		
 		// Fin affichage

@@ -18,16 +18,15 @@ public class Launcher {
 		model.init();
 		//Création des contrôleurs : un pour chaque vue
 		//Chaque contrôleur doit avoir une référence vers le modèle pour pouvoir le commander
-		//GameController ctrlGUI = new GameController(model);										///!\/!\/!\
+		GameController ctrlGUI = new GameController(model);
 		GameController ctrlConsole = new GameController(model);
 		// Création des vues
 		// Chaque vue doit connaître son contrôleur et avoir une référence vers le modèle
-		//GameViewGUI GUI = new GameViewGUI(model, ctrlGUI);										///!\/!\/!\
+		GameViewGUI GUI = new GameViewGUI(model, ctrlGUI);
 		GameViewConsole console = new GameViewConsole(model, ctrlConsole);
 		// On donne la référence à la vue pour chaque contrôleur
-		//ctrlGUI.addView(GUI);																		///!\/!\/!\
+		ctrlGUI.addView(GUI);
 		ctrlConsole.addView(console);
 	}
 	
 }
-

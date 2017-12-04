@@ -49,15 +49,19 @@ public class GameController {
 	public void press(KeyEvent e) {
 		if(view.keys[KeyEvent.VK_Z]) {
 			model.getPlayer().setyMove(- model.getPlayer().getSpeed());
+			model.getPlayer().setyMoveCon(- model.getPlayer().getSpeedCon());
 		}
 		if(view.keys[KeyEvent.VK_S]) {
 			model.getPlayer().setyMove(model.getPlayer().getSpeed());
+			model.getPlayer().setyMoveCon(model.getPlayer().getSpeedCon());
 		}
 		if(view.keys[KeyEvent.VK_Q]) {
 			model.getPlayer().setxMove(- model.getPlayer().getSpeed());
+			model.getPlayer().setxMoveCon(- model.getPlayer().getSpeedCon());
 		}
 		if(view.keys[KeyEvent.VK_D]) {
 			model.getPlayer().setxMove(model.getPlayer().getSpeed());
+			model.getPlayer().setxMoveCon(model.getPlayer().getSpeedCon());
 		}
 		model.movePlayer();
 	}
@@ -66,26 +70,26 @@ public class GameController {
 	 * Gère les déplacements du joueur en console
 	 */
 	public void moveCon() {
-		model.getWorldConsole().getGrid()[model.getPlayerCon().getX()][model.getPlayerCon().getY()] = "_";
-		if(model.getPlayerCon().getyMove() < 0) {
-			model.getPlayerCon().y -= 1;
-			if(model.getPlayerCon().collisionMob()) model.getPlayerCon().restart();
-			else if(model.getWorldConsole().notWalkable()) model.getPlayerCon().y += 1;
+		model.getWorld().getGridCon()[model.getPlayer().getxCon()][model.getPlayer().getyCon()] = "[_]";
+		if(model.getPlayer().getyMoveCon() < 0) {
+			model.getPlayer().yCon -= 1;
+			if(model.getPlayer().collisionEntityCon()) model.getPlayer().restart();
+			else if(model.getPlayer().collisionTileCon()) model.getPlayer().yCon += 1;
 		}
-		if(model.getPlayerCon().getyMove() > 0) {
-			model.getPlayerCon().y += 1;
-			if(model.getPlayerCon().collisionMob()) model.getPlayerCon().restart();
-			else if(model.getWorldConsole().notWalkable()) model.getPlayerCon().y -= 1;
+		if(model.getPlayer().getyMoveCon() > 0) {
+			model.getPlayer().yCon += 1;
+			if(model.getPlayer().collisionEntityCon()) model.getPlayer().restart();
+			else if(model.getPlayer().collisionTileCon()) model.getPlayer().yCon -= 1;
 		}
-		if(model.getPlayerCon().getxMove() < 0) {
-			model.getPlayerCon().x -= 3;
-			if(model.getPlayerCon().collisionMob()) model.getPlayerCon().restart();
-			else if(model.getWorldConsole().notWalkable()) model.getPlayerCon().x += 3;
+		if(model.getPlayer().getxMoveCon() < 0) {
+			model.getPlayer().xCon -= 1;
+			if(model.getPlayer().collisionEntityCon()) model.getPlayer().restart();
+			else if(model.getPlayer().collisionTileCon()) model.getPlayer().xCon += 1;
 		}
-		if(model.getPlayerCon().getxMove() > 0) {
-			model.getPlayerCon().x += 3;
-			if(model.getPlayerCon().collisionMob()) model.getPlayerCon().restart();
-			else if(model.getWorldConsole().notWalkable()) model.getPlayerCon().x -= 3;
+		if(model.getPlayer().getxMoveCon() > 0) {
+			model.getPlayer().xCon += 1;
+			if(model.getPlayer().collisionEntityCon()) model.getPlayer().restart();
+			else if(model.getPlayer().collisionTileCon()) model.getPlayer().xCon -= 1;
 		}
 		model.generateCon();
 	}

@@ -5,14 +5,11 @@ import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Observable;
 
-import main.console.MobConsole;
-import main.console.PlayerConsole;
+import main.entities.Player;
 import main.display.Display;
 import main.entities.Mob;
-import main.entities.Player;
 import main.gfx.Assets;
-import main.worlds.WorldConsole;
-import main.worlds.WorldGUI;
+import main.worlds.World;
 
 /**
  * Cette classe représente le modèle de l'architecture MVC
@@ -37,18 +34,14 @@ public class Game extends Observable{
 	// Permet à l'application d'afficher du contenu sur divers éléments tel qu'un canvas
 	public Graphics g;
 	
-	// La map en interface graphique
-	private WorldGUI worldGUI;
-	// La map en console
-	private WorldConsole worldConsole;
+	// La map
+	private World world;
 	// Le joueur
 	private Player player;
 	// L'ennemi
 	private Mob mob;
-	// Le joueur en console
-	private PlayerConsole playerCon;
 	// Les ennemis en console
-	private ArrayList<MobConsole> arrayMob;
+	private ArrayList<Mob> arrayMob;
 	
 	/**
 	 * Initialisation du jeu
@@ -66,27 +59,26 @@ public class Game extends Observable{
 	 * Initialisation des données du jeu
 	 */
 	public void init() {
-		//display = new Display(title, width, height);								///!\/!\/!\
-		//Assets.init();															///!\/!\/!\
-		playerCon = new PlayerConsole(this, 7, 2);
-		arrayMob = new ArrayList<MobConsole>();
-		setMob();
-		//worldGUI = new WorldGUI("res/worlds/testGUI.txt");						///!\/!\/!\
-		worldConsole = new WorldConsole(this, "res/worlds/testConsole.txt");
-	    //player = new Player(this, 100, 100);										///!\/!\/!\
-		//mob = new Mob(this, 100, 200, "right");									///!\/!\/!\
-		//initRender();																///!\/!\/!\
+		display = new Display(title, width, height);
+		Assets.init();
+		//playerCon = new PlayerConsole(this, 7, 2);
+		//arrayMob = new ArrayList<MobConsole>();
+		//setMob();
+		world = new World(this, "res/worlds/testGUI.txt");
+		player = new Player(this, 5, 5);
+		mob = new Mob(this, 5, 8, "right");
+		initRender();
 		initConsole();
 	}
 	
-	public void setMob() {
+	/*public void setMob() {
 		for(MobConsole mob : arrayMob) {
 			mob.running = false;
 		}
 		arrayMob.removeAll(arrayMob);
 		arrayMob.add(new MobConsole(this, 7, 5, "right"));
 		arrayMob.add(new MobConsole(this, 22, 8, "up"));
-	}
+	}*/
 	
 	/**
 	 * Premier affichage après initialisation de la fenêtre
@@ -110,9 +102,9 @@ public class Game extends Observable{
 		// Début affichage
 		
 		
-		worldGUI.render(g);
-		player.render(g);
-		mob.render(g);
+		world.renderGUI(g);
+		player.renderGUI(g);
+		mob.renderGUI(g);
 		
 				
 		// Fin affichage
@@ -128,18 +120,18 @@ public class Game extends Observable{
 	 * Affiche la map en console lors de la première frame
 	 */
 	public void initConsole(){
-		worldConsole.render();
+		player.renderCon();
+		mob.renderCon();
+		world.renderCon();
 	}
 	
 	/**
 	 * Permet de déplacer le joueur
 	 */
 	public void movePlayer() {
-		player.moveX();
-		player.moveY();
-		if(player.collisionEntity()) {
-			player.setX(100);
-			player.setY(100);
+		player.move();
+		if(player.collisionEntity() || player.collisionEntityCon()) {
+			player.restart();
 		}
 		setChanged();
 		notifyObservers();
@@ -149,9 +141,8 @@ public class Game extends Observable{
 	 * Permet le déplacement du mob
 	 */
 	public void moveMob() {
-		if(player.collisionEntity()) {
-			player.setX(100);
-			player.setY(100);
+		if(player.collisionEntity() || player.collisionEntityCon()) {
+			player.restart();
 		}
 		setChanged();
 		notifyObservers();
@@ -160,25 +151,18 @@ public class Game extends Observable{
 	/**
 	 * Affiche la console avec les éléments mis à jour
 	 */
-	public synchronized void generateCon() {
-		if(worldConsole.flagged()) {
-			if(worldConsole.getId() == 2) {
+	public void generateCon() {
+		/*if(world.flagged()) {
+			if(world.getId() == 2) {
+				world.getGrid()[4][11] = "B";
+				worldConsole.getGrid()[7][11] = "I";
+				worldConsole.getGrid()[10][11] = "E";
+				worldConsole.getGrid()[13][11] = "N";
+				worldConsole.getGrid()[19][11] = "J";
+				worldConsole.getGrid()[22][11] = "O";
+				worldConsole.getGrid()[25][11] = "U";
+				worldConsole.getGrid()[28][11] = "E";
 				worldConsole.getGrid()[playerCon.getX()][playerCon.getY()] = "P";
-				for(int y = 0; y < worldConsole.getHeight(); y++){
-					for(int x = 0; x < worldConsole.getWidth(); x ++){
-						if(worldConsole.getGrid()[x][y].equals("x") ||
-								worldConsole.getGrid()[x][y].equals("P") ||
-								worldConsole.getGrid()[x][y].equals("O")) worldConsole.getGrid()[x][y] = "_";
-					}
-				}
-				worldConsole.getGrid()[4][5] = "B";
-				worldConsole.getGrid()[7][5] = "I";
-				worldConsole.getGrid()[10][5] = "E";
-				worldConsole.getGrid()[13][5] = "N";
-				worldConsole.getGrid()[19][5] = "J";
-				worldConsole.getGrid()[22][5] = "O";
-				worldConsole.getGrid()[25][5] = "U";
-				worldConsole.getGrid()[28][5] = "E";
 				setChanged();
 				notifyObservers();
 				System.exit(0);
@@ -186,30 +170,23 @@ public class Game extends Observable{
 			else{
 				playerCon = new PlayerConsole(this, 7, 2);
 				setMob();
-				worldConsole = new WorldConsole(this, "res/worlds/testConsole2.txt");
+				worldConsole = new WorldConsole(this);
 				initConsole();
 			}
 			
 		}
 		else{
-			worldConsole.getGrid()[playerCon.getX()][playerCon.getY()] = "P";
-			setChanged();
-			notifyObservers();
-		}
+			
+		}*/
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
-	 * @return la map en interface graphique utilisée par le jeu
+	 * @return la map utilisée par le jeu
 	 */
-	public WorldGUI getWorldGUI() {
-		return worldGUI;
-	}
-	
-	/**
-	 * @return la map en console utilisée par la jeu
-	 */
-	public WorldConsole getWorldConsole() {
-		return worldConsole;
+	public World getWorld() {
+		return world;
 	}
 	
 	/**
@@ -226,14 +203,7 @@ public class Game extends Observable{
 		return mob;
 	}
 	
-	/**
-	 * @return le joueur console utilisé par le jeu
-	 */
-	public PlayerConsole getPlayerCon() {
-		return playerCon;
-	}
-	
-	public ArrayList<MobConsole> getArrayList(){
+	public ArrayList<Mob> getArrayList(){
 		return arrayMob;
 	}
 
