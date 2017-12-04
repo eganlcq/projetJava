@@ -18,17 +18,27 @@ public class Player extends MobileEntity{
 	 * @param x : abscisse
 	 * @param y : ordonnée
 	 */
-	public Player(Game game, float x, float y) {
-		super(game, x, y, MobileEntity.DEFAULT_WIDTH, MobileEntity.DEFAULT_HEIGHT);
+	public Player(Game game, int positionX, int positionY) {
+		super(game, positionX, positionY, MobileEntity.DEFAULT_WIDTH, MobileEntity.DEFAULT_HEIGHT);
+		game.getWorld().getGridCon()[startXCon][startYCon] = "[P]";
 	}
 
 	@Override
 	/**
 	 * Affiche les éléments mis à jour
 	 */
-	public void render(Graphics g) {
+	public void renderGUI(Graphics g) {
 		g.drawImage(Assets.player, (int) x, (int) y, width, height, null);
 	}
+  
+  public void renderCon(){
+    game.getWorld().getGridCon()[xCon][yCon] = "[P]";
+  }
+  
+  public void move(){
+    moveX();
+    moveY();
+  }
 	
 	/**
 	 * Gère le déplacement horizontal du joueur
@@ -39,22 +49,18 @@ public class Player extends MobileEntity{
 		int tileYUp = (int) (y + hitbox.y) / Tile.TILEHEIGHT;
 		int tileYDown = (int) (y + hitbox.y + hitbox.width) / Tile.TILEHEIGHT;
 		// Mouvement à droite
-		if(xMove > 0) {
+		if(xMove > 0 && xMoveCon > 0) {
 			if(!collisionTile(tileXRight, tileYUp) && !collisionTile(tileXRight, tileYDown)) {
 				x += xMove;
 			}
-			else {
-				x = tileXRight * Tile.TILEWIDTH - hitbox.x - hitbox.width -1;
-			}
+			movexCon();
 		}
 		// Mouvement à gauche
-		else if(xMove < 0) {
+		else if(xMove < 0 && xMoveCon < 0) {
 			if(!collisionTile(tileXLeft, tileYUp) && !collisionTile(tileXLeft, tileYDown)) {
 				x += xMove;
 			}
-			else {
-				x = tileXLeft * Tile.TILEWIDTH + Tile.TILEWIDTH - hitbox.x +1;
-			}
+			movexCon();
 		}
 	}
 	
@@ -67,23 +73,41 @@ public class Player extends MobileEntity{
 		int tileYUp = (int) (y + yMove + hitbox.y -1) / Tile.TILEHEIGHT;
 		int tileYDown = (int) (y + yMove + hitbox.y + hitbox.width -1) / Tile.TILEHEIGHT;
 		// Mouvement vers le bas
-		if(yMove > 0) {
+		if(yMove > 0 && yMoveCon > 0) {
 			if(!collisionTile(tileXLeft, tileYDown) && !collisionTile(tileXRight, tileYDown)) {
 				y += yMove;
 			}
-			else {
-				y = tileYDown * Tile.TILEHEIGHT - hitbox.y - hitbox.height -1;
-			}
+			moveyCon();
 		}
 		// Mouvement vers le haut
-		else if(yMove < 0) {
+		else if(yMove < 0 && yMoveCon < 0) {
 			if(!collisionTile(tileXLeft, tileYUp) && !collisionTile(tileXRight, tileYUp)) {
 				y += yMove;
 			}
-			else {
-				y = tileYUp * Tile.TILEHEIGHT + Tile.TILEHEIGHT - hitbox.y +1;
-			}
+			moveyCon();
 		}
 	}
+  
+  public void movexCon(){
+    game.getWorld().getGridCon()[xCon][yCon] = "[_]";
+	xCon += xMoveCon;
+	if(collisionTileCon()) xCon -= xMoveCon;
+	game.getWorld().getGridCon()[xCon][yCon] = "[P]";
+  }
+  
+  public void moveyCon(){
+    game.getWorld().getGridCon()[xCon][yCon] = "[_]";
+	yCon += yMoveCon;
+	if(collisionTileCon()) yCon -= yMoveCon;
+	game.getWorld().getGridCon()[xCon][yCon] = "[P]";
+  }
+  
+  public void restart(){
+    x = startX;
+	y = startY;
+	game.getWorld().getGridCon()[xCon][yCon] = "[_]";
+	xCon = startXCon;
+	yCon = startYCon;
+  }
 
 }
