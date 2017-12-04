@@ -76,8 +76,8 @@ public  abstract class MobileEntity extends Entity{
 		return (game.getWorld().getGridCon()[xCon][yCon].equals("[O]"));
 	}
 	
-	public boolean collisionPlayerCon() {
-		return(game.getWorld().getGridCon()[xCon][yCon].equals("[P]"));
+	public boolean collisionPlayerCon(){
+		return (game.getWorld().getGridCon()[xCon][yCon].equals("[P]"));
 	}
 
 	/**
