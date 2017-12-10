@@ -21,6 +21,8 @@ public class Assets {
 	public static BufferedImage background;
 	public static BufferedImage mob;
 	public static BufferedImage flag;
+	
+	public static BufferedImage end;
 
 	/**
 	 * Permet de ne charger le contenu qu'une seule fois

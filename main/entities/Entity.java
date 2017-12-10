@@ -13,6 +13,7 @@ import model.Game;
  */
 public abstract class Entity {
 
+	// Le jeu faisant tourner l'entité
 	protected Game game;
 	// La position horizontale de l'entité
 	protected float x;
@@ -22,14 +23,21 @@ public abstract class Entity {
 	protected int width;
 	// La hauteur de l'entité
 	protected int height;
+	// La hitbox de l'entité
 	protected Rectangle hitbox;
-	protected final int startX;
-	protected final int startY;
+	// La position horizontale de départ de l'entité
+	protected int startX;
+	// La postion verticale de départ de l'entité
+	protected int startY;
 	
+	// La postion horizontale en console de l'entité
 	public int xCon;
+	// La postion verticale en console de l'entité
 	public int yCon;
-	protected final int startXCon;
-	protected final int startYCon;
+	// La position horizontale de départ en console de l'entité
+	protected int startXCon;
+	// La postion verticale de départ en console de l'entité
+	protected int startYCon;
 	
 	/**
 	 * Initialisation d'une nouvelle entité
@@ -55,6 +63,9 @@ public abstract class Entity {
 		this.yCon = this.startYCon;
 	}
 	
+	/*
+	 * renvoie la hitbox de l'entité
+	 */
 	public Rectangle getHitbox() {
 		return new Rectangle((int) (x + hitbox.x), (int) (y + hitbox.y), hitbox.width, hitbox.height);
 	}
@@ -65,6 +76,9 @@ public abstract class Entity {
 	 */
 	public abstract void renderGUI(Graphics g);
 	
+	/*
+	 * Affiche les éléments mis à jour en console
+	 */
 	public abstract void renderCon();
 
 	/**
@@ -95,37 +109,5 @@ public abstract class Entity {
 	 */
 	public void setY(float y) {
 		this.y = y;
-	}
-	
-	public int getxCon() {
-		return xCon;
-	}
-
-	public void setxCon(int xCon) {
-		this.xCon = xCon;
-	}
-
-	public int getyCon() {
-		return yCon;
-	}
-
-	public void setyCon(int yCon) {
-		this.yCon = yCon;
-	}
-
-	public int getStartX() {
-		return startX;
-	}
-	
-	public int getStartY() {
-		return startY;
-	}
-	
-	public int getStartXCon() {
-		return startXCon;
-	}
-	
-	public int getStartYCon() {
-		return startYCon;
 	}
 }

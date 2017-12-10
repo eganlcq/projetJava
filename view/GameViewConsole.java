@@ -33,28 +33,32 @@ public class GameViewConsole extends GameView implements Runnable{
 	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		if(model.getPlayer() != null) {
 			model.getPlayer().renderCon();
-			model.getMob().renderCon();
-			model.getWorld().renderCon();
+			model.getList().renderCon();
+		}
+		model.getWorld().renderCon();
 	}
 	
 	/**
 	 * Scanne en permanence les input rentrés en console
 	 */
 	public void scan() {
-		while(true) {
+		while(model.getPlayer() != null) {
 			model.getPlayer().setxMoveCon(0);
 			model.getPlayer().setyMoveCon(0);
+			model.getPlayer().setxMove(0);
+			model.getPlayer().setyMove(0);
 			String msg = sc.nextLine();
-			if(msg.equals("z")) model.getPlayer().setyMoveCon(-1);
-			if(msg.equals("s")) model.getPlayer().setyMoveCon(1);
-			if(msg.equals("q")) model.getPlayer().setxMoveCon(-1);
-			if(msg.equals("d")) model.getPlayer().setxMoveCon(1);
+			if(model.getPlayer() == null) {
+				sc.close();
+				break;
+			}
 			if(msg.equals("stop")) {
 				sc.close();
 				System.exit(0);
 			}
-			controller.moveCon();
+			controller.moveCon(msg);
 		}
 	}
 

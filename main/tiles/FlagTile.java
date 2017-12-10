@@ -16,5 +16,13 @@ public class FlagTile extends Tile{
 	public FlagTile(int id) {
 		super(Assets.flag, id);
 	}
+	
+	/**
+	 * Indique que la case est la case d'arrivée
+	 */
+	@Override
+	public boolean isFlag() {
+		return true;
+	}
 
 }

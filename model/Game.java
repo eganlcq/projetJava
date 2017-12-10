@@ -2,13 +2,13 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
 import java.util.Observable;
 
 import main.entities.Player;
 import main.display.Display;
-import main.entities.Mob;
+import main.entities.ListEntity;
 import main.gfx.Assets;
+import main.tiles.Tile;
 import main.worlds.World;
 
 /**
@@ -38,10 +38,8 @@ public class Game extends Observable{
 	private World world;
 	// Le joueur
 	private Player player;
-	// L'ennemi
-	private Mob mob;
 	// Les ennemis en console
-	private ArrayList<Mob> arrayMob;
+	private ListEntity listMob;
 	
 	/**
 	 * Initialisation du jeu
@@ -59,26 +57,14 @@ public class Game extends Observable{
 	 * Initialisation des données du jeu
 	 */
 	public void init() {
+		world = new World(this, "res/worlds/level1.txt");
 		display = new Display(title, width, height);
 		Assets.init();
-		//playerCon = new PlayerConsole(this, 7, 2);
-		//arrayMob = new ArrayList<MobConsole>();
-		//setMob();
-		world = new World(this, "res/worlds/testGUI.txt");
-		player = new Player(this, 5, 5);
-		mob = new Mob(this, 5, 8, "right");
+		player = new Player(this, 3, 5);
+		listMob = new ListEntity(this);
 		initRender();
 		initConsole();
 	}
-	
-	/*public void setMob() {
-		for(MobConsole mob : arrayMob) {
-			mob.running = false;
-		}
-		arrayMob.removeAll(arrayMob);
-		arrayMob.add(new MobConsole(this, 7, 5, "right"));
-		arrayMob.add(new MobConsole(this, 22, 8, "up"));
-	}*/
 	
 	/**
 	 * Premier affichage après initialisation de la fenêtre
@@ -103,8 +89,11 @@ public class Game extends Observable{
 		
 		
 		world.renderGUI(g);
-		player.renderGUI(g);
-		mob.renderGUI(g);
+		if(player != null) {
+			player.renderGUI(g);
+			listMob.renderGUI(g);
+		}
+		
 		
 				
 		// Fin affichage
@@ -120,8 +109,11 @@ public class Game extends Observable{
 	 * Affiche la map en console lors de la première frame
 	 */
 	public void initConsole(){
-		player.renderCon();
-		mob.renderCon();
+		if(player != null) {
+			player.renderCon();
+			listMob.renderCon();
+		}
+		
 		world.renderCon();
 	}
 	
@@ -130,56 +122,37 @@ public class Game extends Observable{
 	 */
 	public void movePlayer() {
 		player.move();
-		if(player.collisionEntity() || player.collisionEntityCon()) {
-			player.restart();
-		}
 		setChanged();
 		notifyObservers();
+		if(player.isFlagged(player.getCenterX(), player.getCenterY()) || player.isFlaggedCon()) {
+			changeWorld();
+		}
 	}
 	
 	/**
 	 * Permet le déplacement du mob
 	 */
-	public void moveMob() {
-		if(player.collisionEntity() || player.collisionEntityCon()) {
-			player.restart();
-		}
+	public synchronized void moveMob() {
 		setChanged();
 		notifyObservers();
 	}
 	
 	/**
-	 * Affiche la console avec les éléments mis à jour
+	 * Change de monde lorsque le joueur passe sur une case d'arrivée
 	 */
-	public void generateCon() {
-		/*if(world.flagged()) {
-			if(world.getId() == 2) {
-				world.getGrid()[4][11] = "B";
-				worldConsole.getGrid()[7][11] = "I";
-				worldConsole.getGrid()[10][11] = "E";
-				worldConsole.getGrid()[13][11] = "N";
-				worldConsole.getGrid()[19][11] = "J";
-				worldConsole.getGrid()[22][11] = "O";
-				worldConsole.getGrid()[25][11] = "U";
-				worldConsole.getGrid()[28][11] = "E";
-				worldConsole.getGrid()[playerCon.getX()][playerCon.getY()] = "P";
-				setChanged();
-				notifyObservers();
-				System.exit(0);
-			}
-			else{
-				playerCon = new PlayerConsole(this, 7, 2);
-				setMob();
-				worldConsole = new WorldConsole(this);
-				initConsole();
-			}
-			
+	public void changeWorld() {
+		if(world.getId() == 1) {
+			world = new World(this, "res/worlds/level2.txt");
+			player = new Player(this, 6, 6);
 		}
-		else{
-			
-		}*/
-		setChanged();
-		notifyObservers();
+		else {
+			world = new World(this, "res/worlds/gg.txt");
+			player = null;
+			display.getFrame().setFocusable(false);
+		}
+		display.getFrame().setSize(width, height);
+		display.getFrame().setLocationRelativeTo(null);
+		listMob.setMob();
 	}
 	
 	/**
@@ -197,14 +170,10 @@ public class Game extends Observable{
 	}
 	
 	/**
-	 * @return l'ennemi utilisé par le jeu
+	 * @return la liste d'ennemi utilisée par le jeu
 	 */
-	public Mob getMob() {
-		return mob;
-	}
-	
-	public ArrayList<Mob> getArrayList(){
-		return arrayMob;
+	public ListEntity getList() {
+		return listMob;
 	}
 
 	/**
@@ -222,9 +191,25 @@ public class Game extends Observable{
 	}
 	
 	/**
+	 * Change la valeur de la largeur de la fenêtre
+	 * @param width : la largeur
+	 */
+	public void setWidth(int width) {
+		this.width = width;
+	}
+	
+	/**
 	 * @return la hauteur de la fenêtre
 	 */
 	public int getHeight() {
 		return height;
+	}
+	
+	/**
+	 * Change la valeur de la hauteur de la fenêtre
+	 * @param height : la hauteur
+	 */
+	public void setHeight(int height) {
+		this.height = height;
 	}
 }

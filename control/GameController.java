@@ -46,7 +46,7 @@ public class GameController {
 	 * Vérifie quelle touche est pressée
 	 * @param e : évènement du keyListener
 	 */
-	public void press(KeyEvent e) {
+	public void moveGUI(KeyEvent e) {
 		if(view.keys[KeyEvent.VK_Z]) {
 			model.getPlayer().setyMove(- model.getPlayer().getSpeed());
 			model.getPlayer().setyMoveCon(- model.getPlayer().getSpeedCon());
@@ -69,28 +69,23 @@ public class GameController {
 	/**
 	 * Gère les déplacements du joueur en console
 	 */
-	public void moveCon() {
-		model.getWorld().getGridCon()[model.getPlayer().getxCon()][model.getPlayer().getyCon()] = "[_]";
-		if(model.getPlayer().getyMoveCon() < 0) {
-			model.getPlayer().yCon -= 1;
-			if(model.getPlayer().collisionEntityCon()) model.getPlayer().restart();
-			else if(model.getPlayer().collisionTileCon()) model.getPlayer().yCon += 1;
+	public void moveCon(String msg) {
+		if(msg.equals("z")) {
+			model.getPlayer().setyMove(- model.getPlayer().getSpeed());
+			model.getPlayer().setyMoveCon(- model.getPlayer().getSpeedCon());
 		}
-		if(model.getPlayer().getyMoveCon() > 0) {
-			model.getPlayer().yCon += 1;
-			if(model.getPlayer().collisionEntityCon()) model.getPlayer().restart();
-			else if(model.getPlayer().collisionTileCon()) model.getPlayer().yCon -= 1;
+		if(msg.equals("s")) {
+			model.getPlayer().setyMove(model.getPlayer().getSpeed());
+			model.getPlayer().setyMoveCon(model.getPlayer().getSpeedCon());
 		}
-		if(model.getPlayer().getxMoveCon() < 0) {
-			model.getPlayer().xCon -= 1;
-			if(model.getPlayer().collisionEntityCon()) model.getPlayer().restart();
-			else if(model.getPlayer().collisionTileCon()) model.getPlayer().xCon += 1;
+		if(msg.equals("q")) {
+			model.getPlayer().setxMove(- model.getPlayer().getSpeed());
+			model.getPlayer().setxMoveCon(- model.getPlayer().getSpeedCon());
 		}
-		if(model.getPlayer().getxMoveCon() > 0) {
-			model.getPlayer().xCon += 1;
-			if(model.getPlayer().collisionEntityCon()) model.getPlayer().restart();
-			else if(model.getPlayer().collisionTileCon()) model.getPlayer().xCon -= 1;
+		if(msg.equals("d")) {
+			model.getPlayer().setxMove(model.getPlayer().getSpeed());
+			model.getPlayer().setxMoveCon(model.getPlayer().getSpeedCon());
 		}
-		model.generateCon();
+		model.movePlayer();
 	}
 }

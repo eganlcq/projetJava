@@ -18,12 +18,22 @@ public  abstract class MobileEntity extends Entity{
 	
 	// La vitesse de l'entité
 	protected float speed;
+	// Le déplacement horizontal de l'ennemi
 	protected float xMove;
+	// Le déplacement vertical de l'ennemi
 	protected float yMove;
 	
+	// La vitesse de l'entité en console
 	protected int speedCon;
+	// Le déplacement horizontal de l'ennemi en console
 	protected int xMoveCon;
+	// Le déplacement vertical de l'ennemi en console
 	protected int yMoveCon;
+	
+	// Le centre horizontal de l'entité GUI défini en pixel
+	protected int centerX;
+	// Le centre vertical de l'entité GUI défini en pixel
+	protected int centerY;
 
 	/**
 	 * Initialisation d'une nouvelle entité mobile
@@ -40,6 +50,8 @@ public  abstract class MobileEntity extends Entity{
 		yMove = 0;
 		xMoveCon = 0;
 		yMoveCon = 0;
+		centerX = 0;
+		centerY = 0;
 	}
 	
 	/**
@@ -61,23 +73,53 @@ public  abstract class MobileEntity extends Entity{
 	}
 	
 	/**
-	 * Vérifie si il y a une collision entre le joueur et un ennemi
-	 * @return true si oui, false si non
+	 * Vérifie si le joueur se trouve sur la case d'arrivée en GUI
+	 * @param x : position horizontale de la case courante
+	 * @param y : position verticale de la case courante
+	 * @return true si la case courante est la case d'arrivée, false sinon
 	 */
-	public boolean collisionEntity() {
-		return getHitbox().intersects(game.getMob().getHitbox());
+	public boolean isFlagged(int x, int y) {
+		return (game.getWorld().getTile(x, y).isFlag());
 	}
 	
 	/**
-	 * Vérifie les collisions avec un ennemi
+	 * Vérifie si le joueur se trouve sur la case d'arrivée en console
+	 * @return true si la case courante est la case d'arrivée, false sinon
+	 */
+	public boolean isFlaggedCon() {
+		return (game.getWorld().getGridCon()[xCon][yCon].equals("[F]"));
+	}
+	
+	/**
+	 * Vérifie si il y a une collision entre le joueur et un ennemi
+	 * @return true si oui, false si non
+	 */
+	public boolean collisionEntity(Mob mob) {
+		return getHitbox().intersects(mob.getHitbox());
+	}
+	
+	/**
+	 * Vérifie si il y a une collision entre le joueur et un ennemi
+	 * @return true si oui, false si non
+	 */
+	public boolean collisionPlayer() {
+		return getHitbox().intersects(game.getPlayer().getHitbox());
+	}
+	
+	/**
+	 * Vérifie les collisions avec un ennemi en console
 	 * @return true si oui, false si non
 	 */
 	public boolean collisionEntityCon() {
 		return (game.getWorld().getGridCon()[xCon][yCon].equals("[O]"));
 	}
 	
-	public boolean collisionPlayerCon(){
-		return (game.getWorld().getGridCon()[xCon][yCon].equals("[P]"));
+	/**
+	 * Vérifie les collisions avec un ennemi en console
+	 * @return true si oui, false si non
+	 */
+	public boolean collisionPlayerCon() {
+		return(game.getWorld().getGridCon()[xCon][yCon].equals("[P]"));
 	}
 
 	/**
@@ -86,28 +128,12 @@ public  abstract class MobileEntity extends Entity{
 	public float getSpeed() {
 		return speed;
 	}
-
-	/**
-	 * Change la vitesse de l'entité mobile
-	 * @param speed : la vitesse
-	 */
-	public void setSpeed(float speed) {
-		this.speed = speed;
-	}
 	
+	/**
+	 * @return la vitesse de l'entité en console
+	 */
 	public int getSpeedCon() {
 		return speedCon;
-	}
-	
-	public void setSpeedCon(int speedCon) {
-		this.speedCon = speedCon;
-	}
-
-	/**
-	 * @return le déplacement horizontal de l'entité
-	 */
-	public float getxMove() {
-		return xMove;
 	}
 
 	/**
@@ -119,25 +145,11 @@ public  abstract class MobileEntity extends Entity{
 	}
 
 	/**
-	 * @return le déplacement vertical de l'entité
-	 */
-	public float getyMove() {
-		return yMove;
-	}
-
-	/**
 	 * Change la valeur de yMove
 	 * @param yMove : le déplacement vertical de l'entité
 	 */
 	public void setyMove(float yMove) {
 		this.yMove = yMove;
-	}
-	
-	/**
-	 * @return le déplacement horizontal de l'entité
-	 */
-	public int getxMoveCon() {
-		return xMoveCon;
 	}
 
 	/**
@@ -146,13 +158,6 @@ public  abstract class MobileEntity extends Entity{
 	 */
 	public void setxMoveCon(int xMoveCon) {
 		this.xMoveCon = xMoveCon;
-	}
-
-	/**
-	 * @return le déplacement vertical de l'entité
-	 */
-	public int getyMoveCon() {
-		return yMoveCon;
 	}
 
 	/**

@@ -6,21 +6,49 @@ import main.tiles.Tile;
 import main.utils.Utils;
 import model.Game;
 
+/**
+ * Cette classe représente le monde du jeu
+ * @author Octikoros
+ *
+ */
 public class World{
   
-  private int width;
-  private int height;
-  private int[][] grid;
-  private String[][] gridCon;
-  private String mapCon = "";
-  private Game game;
+	// Le jeu comportant les données du monde
+	private Game game;
+	// La largeur du monde
+	private int width;
+	// La hauteur du monde
+	private int height;
+	// La grille comportant les cases du monde
+	private int[][] grid;
+	// La grille comportant les cases du monde en console
+	private String[][] gridCon;
+	// Variable permettant le sysout du monde en console
+	private String mapCon = "";
   
-  public World(Game game, String path){
-    this.game = game;
-    loadWorld(path);
-  }
+	// L'id du monde
+	private static int id = 0;
   
-  public Tile getTile(int x, int y) {
+	/**
+	 * Initialise un nouveau monde
+	 * @param game : les données du monde
+	 * @param path : le chemin d'accès au fichier texte
+	 */
+	public World(Game game, String path){
+		this.game = game;  
+		loadWorld(path);
+		this.game.setWidth(width * Tile.TILEWIDTH);
+		this.game.setHeight(height * Tile.TILEHEIGHT);
+    
+		id++;
+	}
+  
+	/**
+	 * @param x : position horizontale dans la grille
+	 * @param y : position verticale dans la grille
+	 * @return la case correspondante à la position dans la grille
+	 */
+	public Tile getTile(int x, int y) {
 		Tile t = Tile.tiles[grid[x][y]];
 		if(t == null) {
 			return Tile.backgroundTile;
@@ -28,7 +56,11 @@ public class World{
 		return t;
 	}
   
-  public void renderGUI(Graphics g) {
+	/**
+	 * Affiche les éléments mis à jour
+	 * @param g : espace graphique dans lequel on peut afficher du contenu
+	 */
+	public void renderGUI(Graphics g) {
 		for(int y = 0; y < height; y++) {
 			for(int x = 0; x < width; x++) {
 				getTile(x, y).render(g, x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);
@@ -36,18 +68,25 @@ public class World{
 		}
 	}
   
-  public void renderCon(){
-    mapCon = "";
-    for(int y = 0; y < height; y++){
-      for(int x = 0; x < width; x++){
-        mapCon = mapCon.concat(gridCon[x][y]);
-      }
-    }
-    mapCon = mapCon.concat("\n\n");
-    System.out.println(mapCon);
-  }
+	/**
+	 * Affiche les éléments mis à jour en console
+	 */
+	public void renderCon(){
+		mapCon = "";
+		for(int y = 0; y < height; y++){
+			for(int x = 0; x < width; x++){
+				mapCon = mapCon.concat(gridCon[x][y]);
+			}
+		}
+		mapCon = mapCon.concat("\n\n");
+		System.out.println(mapCon);
+	}
   
-  public void loadWorld(String path) {
+	/**
+	 * Charge les données du monde en mémoire
+	 * @param path : le chemin d'accès au fichier texte
+	 */
+	public void loadWorld(String path) {
 		String file = Utils.loadFileAsString(path);
 		String[] num = file.split("\\s+");
 		width = Utils.parseInt(num[0]);
@@ -67,37 +106,18 @@ public class World{
 		}
 	}
   
-  /*public boolean flagged() {
-		return (grid[game.getPlayerCon().getX()][game.getPlayerCon().getY()].equals("F"));
-	}*/
-  
-  public String[][] getGridCon(){
+	/**
+	 * @return la grille comportant les cases en console
+	 */
+	public String[][] getGridCon(){
 		return gridCon;	
 	}
 	
-	public String getMapCon(){
-		return mapCon;
-	}
-  
-  /**
-	 * @return la valeur de la largeur de la map
-	 */
-	public int getWidth() {
-		return width;
-	}
-	
 	/**
-	 * @return la valeur de la largeur de la map
+	 * @return l'id du monde
 	 */
-	public int getHeight() {
-		return height;
-	}
-	
-	/**
-	 * @return la grille comportant toute les cases de la map
-	 */
-	public int[][] getGrid(){
-		return grid;
+	public int getId() {
+		return id;
 	}
   
 }

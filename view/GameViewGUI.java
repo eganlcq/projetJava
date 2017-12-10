@@ -41,7 +41,7 @@ public class GameViewGUI extends GameView implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		if(!pushed) {
 			keys[e.getKeyCode()] = true;
-			controller.press(e);
+			controller.moveGUI(e);
 			pushed = true;
 		}
 	}
@@ -80,8 +80,11 @@ public class GameViewGUI extends GameView implements KeyListener{
 		
 		
 		model.getWorld().renderGUI(model.g);
-		model.getPlayer().renderGUI(model.g);
-		model.getMob().renderGUI(model.g);
+		if(model.getPlayer() != null) {
+			model.getPlayer().renderGUI(model.g);
+			model.getList().renderGUI(model.g);
+		}
+		
 		
 		
 		// Fin affichage

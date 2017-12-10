@@ -52,6 +52,14 @@ public class Tile {
 	}
 	
 	/**
+	 * Vérifie si la case demandée est une case d'arrivée
+	 * @return true si oui, sinon false
+	 */
+	public boolean isFlag() {
+		return false;
+	}
+	
+	/**
 	 * Vérifie si une case est solide ou non
 	 * @return true si oui, false si non
 	 */

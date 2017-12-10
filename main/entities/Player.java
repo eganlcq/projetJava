@@ -12,7 +12,7 @@ import model.Game;
  *
  */
 public class Player extends MobileEntity{
-
+	
 	/**
 	 * Initialisation d'un nouveau joueur
 	 * @param x : abscisse
@@ -31,33 +31,40 @@ public class Player extends MobileEntity{
 		g.drawImage(Assets.player, (int) x, (int) y, width, height, null);
 	}
   
-  public void renderCon(){
-    game.getWorld().getGridCon()[xCon][yCon] = "[P]";
-  }
+	/**
+	 * Affiche les éléments mis à jour en console
+	 */
+	public void renderCon(){
+		game.getWorld().getGridCon()[xCon][yCon] = "[P]";
+	}
   
-  public void move(){
-    moveX();
-    moveY();
-  }
+	/**
+	 * Permet de changer la position du joueur
+	 */
+	public void move(){
+		moveX();
+		moveY();
+		for(Mob mob : game.getList().getArrayMob()) {
+			if(collisionEntity(mob)) restart();
+		}
+	}
 	
 	/**
 	 * Gère le déplacement horizontal du joueur
 	 */
 	public void moveX() {
-		int tileXLeft = (int) (x + xMove + hitbox.x) / Tile.TILEWIDTH;
-		int tileXRight = (int) (x + xMove + hitbox.x + hitbox.width) / Tile.TILEWIDTH;
-		int tileYUp = (int) (y + hitbox.y) / Tile.TILEHEIGHT;
-		int tileYDown = (int) (y + hitbox.y + hitbox.width) / Tile.TILEHEIGHT;
+		centerX = (int) (x + xMove + (hitbox.x / 2) + (hitbox.y / 2)) / Tile.TILEWIDTH;
+		centerY = (int) (y + (hitbox.x / 2) + (hitbox.y / 2)) / Tile.TILEHEIGHT;
 		// Mouvement à droite
-		if(xMove > 0 && xMoveCon > 0) {
-			if(!collisionTile(tileXRight, tileYUp) && !collisionTile(tileXRight, tileYDown)) {
+		if(xMove > 0 || xMoveCon > 0) {
+			if(!collisionTile(centerX, centerY)) {
 				x += xMove;
 			}
 			movexCon();
 		}
 		// Mouvement à gauche
-		else if(xMove < 0 && xMoveCon < 0) {
-			if(!collisionTile(tileXLeft, tileYUp) && !collisionTile(tileXLeft, tileYDown)) {
+		else if(xMove < 0 || xMoveCon < 0) {
+			if(!collisionTile(centerX, centerY)) {
 				x += xMove;
 			}
 			movexCon();
@@ -68,46 +75,66 @@ public class Player extends MobileEntity{
 	 * Gère le déplacement vertical du joueur
 	 */
 	public void moveY() {
-		int tileXLeft = (int) (x + hitbox.x -1) / Tile.TILEWIDTH;
-		int tileXRight = (int) (x + hitbox.x + hitbox.width -1) / Tile.TILEWIDTH;
-		int tileYUp = (int) (y + yMove + hitbox.y -1) / Tile.TILEHEIGHT;
-		int tileYDown = (int) (y + yMove + hitbox.y + hitbox.width -1) / Tile.TILEHEIGHT;
+		centerX = (int) (x +(hitbox.x / 2) + (hitbox.y / 2)) / Tile.TILEWIDTH;
+		centerY = (int) (y + yMove + (hitbox.x / 2) + (hitbox.y / 2)) / Tile.TILEHEIGHT;
 		// Mouvement vers le bas
-		if(yMove > 0 && yMoveCon > 0) {
-			if(!collisionTile(tileXLeft, tileYDown) && !collisionTile(tileXRight, tileYDown)) {
+		if(yMove > 0 || yMoveCon > 0) {
+			if(!collisionTile(centerX, centerY)) {
 				y += yMove;
 			}
 			moveyCon();
 		}
 		// Mouvement vers le haut
-		else if(yMove < 0 && yMoveCon < 0) {
-			if(!collisionTile(tileXLeft, tileYUp) && !collisionTile(tileXRight, tileYUp)) {
+		else if(yMove < 0 || yMoveCon < 0) {
+			if(!collisionTile(centerX, centerY)) {
 				y += yMove;
 			}
 			moveyCon();
 		}
 	}
   
-  public void movexCon(){
-    game.getWorld().getGridCon()[xCon][yCon] = "[_]";
-	xCon += xMoveCon;
-	if(collisionTileCon()) xCon -= xMoveCon;
-	game.getWorld().getGridCon()[xCon][yCon] = "[P]";
-  }
+	/**
+	 * Gère le déplacement horizontal du joueur en console
+	 */
+	public void movexCon(){
+		game.getWorld().getGridCon()[xCon][yCon] = "[_]";
+		xCon += xMoveCon;
+		if(collisionTileCon()) xCon -= xMoveCon;
+		if(collisionEntityCon()) restart();
+	}
   
-  public void moveyCon(){
-    game.getWorld().getGridCon()[xCon][yCon] = "[_]";
-	yCon += yMoveCon;
-	if(collisionTileCon()) yCon -= yMoveCon;
-	game.getWorld().getGridCon()[xCon][yCon] = "[P]";
-  }
+	/**
+	 * Gère le déplacement vertical du joueur en console 
+	 */
+	public void moveyCon(){
+		game.getWorld().getGridCon()[xCon][yCon] = "[_]";
+		yCon += yMoveCon;
+		if(collisionTileCon()) yCon -= yMoveCon;
+		if(collisionEntityCon()) restart();
+	}
   
-  public void restart(){
-    x = startX;
-	y = startY;
-	game.getWorld().getGridCon()[xCon][yCon] = "[_]";
-	xCon = startXCon;
-	yCon = startYCon;
-  }
+	/**
+	 * Réinitialise la postion du joueur
+	 */
+	public void restart(){
+		x = startX;
+		y = startY;
+		game.getWorld().getGridCon()[xCon][yCon] = "[_]";
+		xCon = startXCon;
+		yCon = startYCon;
+	}
 
+	/**
+	 * @return la valeur du centre horizontal du joueur
+	 */
+	public int getCenterX() {
+		return centerX;
+	}
+
+	/**
+	 * @return la valeur du centre vertical du joueur
+	 */
+	public int getCenterY() {
+		return centerY;
+	}
 }
