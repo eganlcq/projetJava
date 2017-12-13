@@ -105,11 +105,51 @@ public class ListEntity implements Runnable{
 			arrayMob.add(new Mob(game, 15, 5, "up", "", 0, 0, 3, 3));
 			arrayMob.add(new Mob(game, 16, 5, "down", "", 0, 0, 3, 3));
 		}
-		else if(game.getWorld().getId() == 2) {
+		else if(game.getWorld().getId() == 2){
+			arrayMob.add(new Mob(game, 3, 8, "up", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 4, 8, "down", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 5, 8, "up", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 6, 8, "down", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 7, 8, "up", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 8, 8, "down", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 9, 8, "up", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 10, 8, "down", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 11, 8, "up", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 12, 8, "down", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 13, 8, "up", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 14, 8, "down", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 15, 8, "up", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 9, 7, "right", "", 6, 6, 0, 0));
+			arrayMob.add(new Mob(game, 9, 9, "left", "", 6, 6, 0, 0));
+			
+		}
+		else if(game.getWorld().getId() == 3) {
 			arrayMob.add(new Mob(game, 3, 3, "right", "turnRight", 0, 6, 0, 6));
 			arrayMob.add(new Mob(game, 9, 3, "down", "turnRight", 6, 0, 0, 6));
 			arrayMob.add(new Mob(game, 9, 9, "left", "turnRight", 6, 0, 6, 0));
 			arrayMob.add(new Mob(game, 3, 9, "up", "turnRight", 0, 6, 6, 0));
+		}
+		else if(game.getWorld().getId() == 4){
+			arrayMob.add(new Mob(game, 2, 9, "up", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 3, 9, "down", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 4, 9, "up", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 5, 8, "down", "", 0, 0, 0, 4));
+			arrayMob.add(new Mob(game, 6, 7, "up", "", 0, 0, 5, 5));
+			arrayMob.add(new Mob(game, 7, 7, "down", "", 0, 0, 5, 5));
+			arrayMob.add(new Mob(game, 8, 7, "up", "", 0, 0, 5, 5));
+			arrayMob.add(new Mob(game, 9, 6, "up", "", 0, 0, 4, 0));
+			arrayMob.add(new Mob(game, 10, 7, "up", "", 0, 0, 5, 5));
+			arrayMob.add(new Mob(game, 11, 7, "down", "", 0, 0, 5, 5));
+			arrayMob.add(new Mob(game, 12, 7, "up", "", 0, 0, 5, 5));
+			arrayMob.add(new Mob(game, 13, 8, "down", "", 0, 0, 0, 4));
+			arrayMob.add(new Mob(game, 14, 7, "up", "", 0, 0, 5, 5));
+			arrayMob.add(new Mob(game, 15, 7, "down", "", 0, 0, 5, 5));
+			arrayMob.add(new Mob(game, 16, 7, "up", "", 0, 0, 5, 5));
+			arrayMob.add(new Mob(game, 17, 6, "up", "", 0, 0, 4, 0));
+			arrayMob.add(new Mob(game, 18, 5, "up", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 19, 5, "down", "", 0, 0, 3, 3));
+			arrayMob.add(new Mob(game, 20, 5, "up", "", 0, 0, 3, 3));
+			
 		}
 		for(Mob mob : arrayMob) {
 			mob.changeDirection();
@@ -125,3 +165,4 @@ public class ListEntity implements Runnable{
 	}
 
 }
+

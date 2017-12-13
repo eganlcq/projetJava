@@ -39,6 +39,9 @@ public class World{
 		loadWorld(path);
 		this.game.setWidth(width * Tile.TILEWIDTH);
 		this.game.setHeight(height * Tile.TILEHEIGHT);
+		
+		game.setResult(game.getResult() + game.getScore());
+		game.setScore(500);
     
 		id++;
 	}

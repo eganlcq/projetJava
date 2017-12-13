@@ -122,6 +122,8 @@ public class Player extends MobileEntity{
 		game.getWorld().getGridCon()[xCon][yCon] = "[_]";
 		xCon = startXCon;
 		yCon = startYCon;
+		game.setDeath(game.getDeath() + 1);
+		game.getDS().playSound();
 	}
 
 	/**

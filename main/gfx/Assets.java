@@ -22,7 +22,8 @@ public class Assets {
 	public static BufferedImage mob;
 	public static BufferedImage flag;
 	
-	public static BufferedImage end;
+	public static BufferedImage rip;
+	public static BufferedImage time;
 
 	/**
 	 * Permet de ne charger le contenu qu'une seule fois
@@ -31,6 +32,9 @@ public class Assets {
 	public static void init() {
 		// Initialisation de nouvelles sprite sheet contenant une image
 		SpriteSheet texture = new SpriteSheet(ImageLoader.loadImage("/textures/texture.png"));
+		
+		rip = ImageLoader.loadImage("/textures/rip.png");
+		time = ImageLoader.loadImage("/textures/time.png");
 		
 		// Création de sprites
 		player = texture.crop(0, 0, width, height);

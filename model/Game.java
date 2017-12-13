@@ -4,11 +4,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.Observable;
 
-import main.entities.Player;
 import main.display.Display;
 import main.entities.ListEntity;
+import main.entities.Player;
 import main.gfx.Assets;
-import main.tiles.Tile;
+import main.gfx.Music;
 import main.worlds.World;
 
 /**
@@ -41,6 +41,17 @@ public class Game extends Observable{
 	// Les ennemis en console
 	private ListEntity listMob;
 	
+	private Music backgroundSound;
+	private Music deathSound;
+	private Music winSound;
+	
+	private int score;
+	private int countScore = 0;
+	private int finalResult;
+	private int time;
+	private int totalTime;
+	private int nbDeath;
+	
 	/**
 	 * Initialisation du jeu
 	 * @param title : titre de la fenêtre
@@ -57,6 +68,13 @@ public class Game extends Observable{
 	 * Initialisation des données du jeu
 	 */
 	public void init() {
+		nbDeath = 0;
+		finalResult = 0;
+		time = 0;
+		totalTime = 0;
+		backgroundSound = new Music("res/music/main.wav");
+		deathSound = new Music("res/music/fart.wav");
+		winSound = new Music("res/music/win.wav");
 		world = new World(this, "res/worlds/level1.txt");
 		display = new Display(title, width, height);
 		Assets.init();
@@ -64,6 +82,7 @@ public class Game extends Observable{
 		listMob = new ListEntity(this);
 		initRender();
 		initConsole();
+		backgroundSound.playSound();
 	}
 	
 	/**
@@ -133,6 +152,13 @@ public class Game extends Observable{
 	 * Permet le déplacement du mob
 	 */
 	public synchronized void moveMob() {
+		countScore++;
+		if(countScore >= 3) {
+			score--;
+			time++;
+			if(score < 0) score = 0;
+			countScore = 0;
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -143,12 +169,26 @@ public class Game extends Observable{
 	public void changeWorld() {
 		if(world.getId() == 1) {
 			world = new World(this, "res/worlds/level2.txt");
+			player = new Player(this, 9, 13);
+		}
+		else if(world.getId() == 2) {
+			world = new World(this, "res/worlds/level3.txt");
 			player = new Player(this, 6, 6);
 		}
+		else if(world.getId() == 3){
+			world = new World(this, "res/worlds/level4.txt");
+			player = new Player(this, 3, 3);
+			
+		}
 		else {
+			backgroundSound.stopSound();
+			winSound.playSound();
 			world = new World(this, "res/worlds/gg.txt");
 			player = null;
 			display.getFrame().setFocusable(false);
+			finalResult -= nbDeath * 20;
+			totalTime = time;
+			if(finalResult < 0) finalResult = 0;
 		}
 		display.getFrame().setSize(width, height);
 		display.getFrame().setLocationRelativeTo(null);
@@ -211,5 +251,45 @@ public class Game extends Observable{
 	 */
 	public void setHeight(int height) {
 		this.height = height;
+	}
+	
+	public Music getBGS() {
+		return backgroundSound;
+	}
+	
+	public Music getDS() {
+		return deathSound;
+	}
+	
+	public Music getWS() {
+		return winSound;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	public int getDeath() {
+		return nbDeath;
+	}
+	
+	public void setDeath(int nbDeath) {
+		this.nbDeath = nbDeath;
+	}
+	
+	public int getResult() {
+		return finalResult;
+	}
+	
+	public void setResult(int result) {
+		this.finalResult = result;
+	}
+	
+	public int getTime() {
+		return totalTime;
 	}
 }

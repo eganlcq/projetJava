@@ -1,10 +1,13 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Observable;
 
 import control.GameController;
+import main.gfx.Assets;
 import model.Game;
 
 /**
@@ -83,6 +86,24 @@ public class GameViewGUI extends GameView implements KeyListener{
 		if(model.getPlayer() != null) {
 			model.getPlayer().renderGUI(model.g);
 			model.getList().renderGUI(model.g);
+			model.g.drawImage(Assets.rip, 5, 20, 20, 20, null);
+			model.g.setFont(new Font("Arial black", Font.PLAIN, 14));
+			model.g.setColor(Color.BLACK);
+			model.g.drawString("Timer : " + Integer.toString(model.getScore()), 7, 17);
+			model.g.drawString(Integer.toString(model.getDeath()), 32, 37);
+			model.g.setColor(Color.WHITE);
+			model.g.drawString("Timer : " + Integer.toString(model.getScore()), 5, 15);
+			model.g.drawString(Integer.toString(model.getDeath()), 30, 35);
+		}
+		else {
+			model.g.drawImage(Assets.time, 5, 20, 20, 20, null);
+			model.g.setFont(new Font("Arial black", Font.PLAIN, 14));
+			model.g.setColor(Color.BLACK);
+			model.g.drawString("Final result : " + Integer.toString(model.getResult()), 7, 17);
+			model.g.drawString(Integer.toString(model.getTime()) + " sec", 32, 37);
+			model.g.setColor(Color.WHITE);
+			model.g.drawString("Final result : " + Integer.toString(model.getResult()), 5, 15);
+			model.g.drawString(Integer.toString(model.getTime()) + " sec", 30, 35);
 		}
 		
 		

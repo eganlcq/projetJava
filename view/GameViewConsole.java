@@ -33,11 +33,7 @@ public class GameViewConsole extends GameView implements Runnable{
 	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		if(model.getPlayer() != null) {
-			model.getPlayer().renderCon();
-			model.getList().renderCon();
-		}
-		model.getWorld().renderCon();
+		render();
 	}
 	
 	/**
@@ -60,6 +56,21 @@ public class GameViewConsole extends GameView implements Runnable{
 			}
 			controller.moveCon(msg);
 		}
+	}
+	
+	public void render() {
+		if(model.getPlayer() != null) {
+			System.out.println("\nTimer : " + model.getScore() + "\n");
+			System.out.println("nb Death : " + model.getDeath() + "\n\n");
+			model.getPlayer().renderCon();
+			model.getList().renderCon();
+		}
+		else {
+			System.out.println("\nFinal result : " + model.getResult() + "\n");
+			System.out.println("Total time : " + model.getTime() + "\n\n");
+			System.out.println("Bien joué !");
+		}
+	
 	}
 
 	/**
