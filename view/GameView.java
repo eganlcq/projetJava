@@ -12,8 +12,6 @@ import model.Game;
  */
 public abstract class GameView implements Observer{
 	
-	// Tableau comportant les touches du clavier
-	public boolean keys[];
 	// Indique si une touche est pressée ou pas
 	protected boolean pushed = false;
 
@@ -31,8 +29,6 @@ public abstract class GameView implements Observer{
 		this.model = model;
 		this.controller = controller;
 		model.addObserver(this);
-		
-		keys = new boolean[256];
 	}
 	
 }

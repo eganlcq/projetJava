@@ -125,6 +125,7 @@ public class Player extends MobileEntity{
 		game.setDeath(game.getDeath() + 1);
 		game.getDS().playSound();
 	}
+	
 
 	/**
 	 * @return la valeur du centre horizontal du joueur
@@ -139,4 +140,6 @@ public class Player extends MobileEntity{
 	public int getCenterY() {
 		return centerY;
 	}
+	
+	
 }

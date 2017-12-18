@@ -41,7 +41,7 @@ public abstract class Entity {
 	
 	/**
 	 * Initialisation d'une nouvelle entité
-	 * @param x : l'absisse
+	 * @param x : l'abscisse
 	 * @param y : l'ordonnée
 	 * @param width : la largeur
 	 * @param height : la hauteur
@@ -110,4 +110,20 @@ public abstract class Entity {
 	public void setY(float y) {
 		this.y = y;
 	}
+
+	/**
+	 * @return la valeur de la position horizontale en console
+	 */
+	public int getxCon() {
+		return xCon;
+	}
+
+	/**
+	 * @return la valeur de la position verticale en console
+	 */
+	public int getyCon() {
+		return yCon;
+	}
+
+	
 }

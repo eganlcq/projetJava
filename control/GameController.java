@@ -46,20 +46,20 @@ public class GameController {
 	 * Vérifie quelle touche est pressée
 	 * @param e : évènement du keyListener
 	 */
-	public void moveGUI(KeyEvent e) {
-		if(view.keys[KeyEvent.VK_Z]) {
+	public void moveGUI(int i) {
+		if(i == KeyEvent.VK_Z) {
 			model.getPlayer().setyMove(- model.getPlayer().getSpeed());
 			model.getPlayer().setyMoveCon(- model.getPlayer().getSpeedCon());
 		}
-		if(view.keys[KeyEvent.VK_S]) {
+		if(i == KeyEvent.VK_S) {
 			model.getPlayer().setyMove(model.getPlayer().getSpeed());
 			model.getPlayer().setyMoveCon(model.getPlayer().getSpeedCon());
 		}
-		if(view.keys[KeyEvent.VK_Q]) {
+		if(i == KeyEvent.VK_Q) {
 			model.getPlayer().setxMove(- model.getPlayer().getSpeed());
 			model.getPlayer().setxMoveCon(- model.getPlayer().getSpeedCon());
 		}
-		if(view.keys[KeyEvent.VK_D]) {
+		if(i == KeyEvent.VK_D) {
 			model.getPlayer().setxMove(model.getPlayer().getSpeed());
 			model.getPlayer().setxMoveCon(model.getPlayer().getSpeedCon());
 		}

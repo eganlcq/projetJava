@@ -150,5 +150,17 @@ public class Mob extends MobileEntity{
       xMove = -speed;
       xMoveCon = -speedCon;
 		} 
+		
 	}
+
+	/**
+	 * Change la direction d'un ennemi
+	 * @param direction : la direction prise par l'ennemi
+	 */
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+	
+	
+	
 }

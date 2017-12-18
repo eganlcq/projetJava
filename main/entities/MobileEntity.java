@@ -135,7 +135,7 @@ public  abstract class MobileEntity extends Entity{
 	public int getSpeedCon() {
 		return speedCon;
 	}
-
+	
 	/**
 	 * Change la valeur de xMove
 	 * @param xMove : le déplacement horizontal de l'entité
@@ -150,6 +150,20 @@ public  abstract class MobileEntity extends Entity{
 	 */
 	public void setyMove(float yMove) {
 		this.yMove = yMove;
+	}
+	
+	/**
+	 * @return la valeur du déplacement horizontal
+	 */
+	public float getxMove() {
+		return xMove;
+	}
+
+	/**
+	 * @return la valeur du déplacement vertical
+	 */
+	public float getyMove() {
+		return yMove;
 	}
 
 	/**

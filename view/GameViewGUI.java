@@ -43,8 +43,8 @@ public class GameViewGUI extends GameView implements KeyListener{
 	 */
 	public void keyPressed(KeyEvent e) {
 		if(!pushed) {
-			keys[e.getKeyCode()] = true;
-			controller.moveGUI(e);
+			int i = e.getKeyCode();
+			controller.moveGUI(i);
 			pushed = true;
 		}
 	}
@@ -54,7 +54,6 @@ public class GameViewGUI extends GameView implements KeyListener{
 	 * Méthode appelée lorsqu'on relache une touche du clavier
 	 */
 	public void keyReleased(KeyEvent e) {
-		keys[e.getKeyCode()] = false;
 		pushed = false;
 		model.getPlayer().setxMove(0);
 		model.getPlayer().setyMove(0);
@@ -71,11 +70,11 @@ public class GameViewGUI extends GameView implements KeyListener{
 	 * Rafraichissement de la fenêtre avec les éléments mis à jour
 	 */
 	public void render() {
-		model.bs = model.getDisplay().getCanvas().getBufferStrategy();
-		if(model.bs == null) {
+		//model.bs = model.getDisplay().getCanvas().getBufferStrategy();
+		/*if(model.bs == null) {
 			model.getDisplay().getCanvas().createBufferStrategy(3);
 			render();
-		}
+		}*/
 		model.g = model.bs.getDrawGraphics();
 		model.g.clearRect(0, 0, model.getWidth(), model.getHeight());
 		
@@ -96,7 +95,7 @@ public class GameViewGUI extends GameView implements KeyListener{
 			model.g.drawString(Integer.toString(model.getDeath()), 30, 35);
 		}
 		else {
-			model.g.drawImage(Assets.time, 5, 20, 20, 20, null);
+			model.g.drawImage(Assets.time, 5, 20, 15, 20, null);
 			model.g.setFont(new Font("Arial black", Font.PLAIN, 14));
 			model.g.setColor(Color.BLACK);
 			model.g.drawString("Final result : " + Integer.toString(model.getResult()), 7, 17);

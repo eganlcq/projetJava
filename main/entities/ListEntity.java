@@ -53,35 +53,17 @@ public class ListEntity implements Runnable{
 	 */
 	public void run() {
 		setMob();
-		// Le nombre de frames auxquelles le jeu tournera par seconde
-		int fps = 3;
-		// L'intervalle de temps qu'il y a entre chaque updates
-		// Utilisé en nanosecondes
-		double timeUpdate = 1000000000 / fps;
-		// Contiendra le temps restant avant d'effectuer de nouveau une update
-		double delta = 0.0;
-		// Contiendra le current time de la machine
-		long now;
-		// Enregistre la dernière fois que l'on a demandé le current time de la machine
-		long lastTime = System.nanoTime();
 				
 		while(running) {
-			// Enregistrer le current time dans la variable "now"
-			now = System.nanoTime();
-			// Ajoute le temps restant avant de rappeler update() et render()
-			delta += (now - lastTime) / timeUpdate;
-			// Met à jour la dernière fois que l'on a demandé le current time de la machine
-			lastTime = now;
-					
-			// Vérifie si update() et render() peuvent se lancer ou non
-			// Cela permet de respecter les 60 updates par secondes convenus
-			if(delta >= 1) {
-				for(Mob mob : arrayMob) {
-					mob.move();
-				}
-				game.moveMob();
-				// Remet la variable "delta" en dessous de 1
-				delta --;
+			for(Mob mob : arrayMob) {
+				mob.move();
+			}
+			game.moveMob();
+			try {
+				Thread.sleep(1000 / 3);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -151,6 +133,101 @@ public class ListEntity implements Runnable{
 			arrayMob.add(new Mob(game, 20, 5, "up", "", 0, 0, 3, 3));
 			
 		}
+		else if(game.getWorld().getId() == 5) {
+            arrayMob.add(new Mob(game, 4, 2, "right", "turnRight", 0, 13, 0, 9));
+            arrayMob.add(new Mob(game, 17, 2, "down", "turnRight", 13, 0, 0, 9));
+            arrayMob.add(new Mob(game, 17, 11, "left", "turnRight", 13, 0, 9, 0));
+            arrayMob.add(new Mob(game, 4, 11, "up", "turnRight", 0, 13, 9, 0));
+            arrayMob.add(new Mob(game, 6, 4, "right", "turnRight", 0, 9, 0, 5));
+            arrayMob.add(new Mob(game, 15, 4, "down", "turnRight", 9, 0, 0, 5));
+            arrayMob.add(new Mob(game, 15, 9, "left", "turnRight", 9, 0, 5, 0));
+            arrayMob.add(new Mob(game, 6, 9, "up", "turnRight", 0, 9, 5, 0));
+            arrayMob.add(new Mob(game, 9, 5, "right", "turnRight", 0, 3, 0, 3));
+            arrayMob.add(new Mob(game, 12, 5, "down", "turnRight", 3, 0, 0, 3));
+            arrayMob.add(new Mob(game, 12, 8, "left", "turnRight", 3, 0, 3, 0));
+            arrayMob.add(new Mob(game, 9, 8, "up", "turnRight", 0, 3, 3, 0));
+        }
+		else if(game.getWorld().getId() == 6){
+			arrayMob.add(new Mob(game, 2, 4, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 4, 4, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 2, 6, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 4, 6, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 2, 8, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 4, 8, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 6, 8, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 8, 8, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 10, 8, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 8, 6, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 10, 6, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 8, 4, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 10, 4, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 12, 4, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 14, 4, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 16, 4, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 14, 6, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 16, 6, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 14, 8, "right", "turnRight", 0, 1, 0, 1));
+			arrayMob.add(new Mob(game, 16, 8, "right", "turnRight", 0, 1, 0, 1));
+		}
+		else if(game.getWorld().getId() == 7){
+			arrayMob.add(new Mob(game, 5, 2, "down", "", 0, 0, 0, 10));
+			arrayMob.add(new Mob(game, 7, 7, "right", "", 0, 9, 0, 0));
+			arrayMob.add(new Mob(game, 7, 10, "right", "", 0, 7, 0, 0));
+			arrayMob.add(new Mob(game, 16, 14, "up", "", 0, 0, 9, 0));
+			arrayMob.add(new Mob(game, 18, 5, "left", "", 11, 0, 0, 0));
+			arrayMob.add(new Mob(game, 2, 12, "right", "", 0, 14, 0, 0));
+		}
+		else if(game.getWorld().getId() == 8){
+			arrayMob.add(new Mob(game, 3, 11, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 4, 11, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 3, 12, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 4, 12, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 3, 7, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 4, 7, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 3, 8, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 4, 8, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 3, 3, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 4, 3, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 3, 4, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 4, 4, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 7, 3, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 8, 3, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 7, 4, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 8, 4, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 11, 3, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 12, 3, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 11, 4, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 12, 4, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 15, 3, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 16, 3, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 15, 4, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 16, 4, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 15, 7, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 16, 7, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 15, 8, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 16, 8, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 15, 11, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 16, 11, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 15, 12, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 16, 12, "", "", 0, 0, 0, 0));
+			arrayMob.add(new Mob(game, 2, 10, "right", "turnRight", 0, 3, 0, 3));
+			arrayMob.add(new Mob(game, 2, 6, "right", "turnRight", 0, 3, 0, 3));
+			arrayMob.add(new Mob(game, 2, 2, "right", "turnRight", 0, 3, 0, 3));
+			arrayMob.add(new Mob(game, 6, 2, "right", "turnRight", 0, 3, 0, 3));
+			arrayMob.add(new Mob(game, 10, 2, "right", "turnRight", 0, 3, 0, 3));
+			arrayMob.add(new Mob(game, 14, 2, "right", "turnRight", 0, 3, 0, 3));
+			arrayMob.add(new Mob(game, 14, 6, "right", "turnRight", 0, 3, 0, 3));
+			arrayMob.add(new Mob(game, 14, 10, "right", "turnRight", 0, 3, 0, 3));
+			arrayMob.add(new Mob(game, 5, 13, "left", "turnRight", 3, 0, 3, 0));
+			arrayMob.add(new Mob(game, 5, 9, "left", "turnRight", 3, 0, 3, 0));
+			arrayMob.add(new Mob(game, 5, 5, "left", "turnRight", 3, 0, 3, 0));
+			arrayMob.add(new Mob(game, 9, 5, "left", "turnRight", 3, 0, 3, 0));
+			arrayMob.add(new Mob(game, 13, 5, "left", "turnRight", 3, 0, 3, 0));
+			arrayMob.add(new Mob(game, 17, 5, "left", "turnRight", 3, 0, 3, 0));
+			arrayMob.add(new Mob(game, 17, 9, "left", "turnRight", 3, 0, 3, 0));
+			arrayMob.add(new Mob(game, 17, 13, "left", "turnRight", 3, 0, 3, 0));
+		}
+		
 		for(Mob mob : arrayMob) {
 			mob.changeDirection();
 		}

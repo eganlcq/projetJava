@@ -41,15 +41,24 @@ public class Game extends Observable{
 	// Les ennemis en console
 	private ListEntity listMob;
 	
+	// La musique de fond
 	private Music backgroundSound;
+	// Son joué lors de la mort du joueur
 	private Music deathSound;
+	// Son joué lors de la victoire du joueur
 	private Music winSound;
 	
+	// Score du joueur
 	private int score;
+	// Permet de rafraichir le score uniquement 1 fois par seconde
 	private int countScore = 0;
+	// Résultat final
 	private int finalResult;
+	// Temps pour finir un niveau
 	private int time;
+	// Temps pour finir les niveaux
 	private int totalTime;
+	// Nombre de fois que le joueur est mort
 	private int nbDeath;
 	
 	/**
@@ -58,10 +67,8 @@ public class Game extends Observable{
 	 * @param width : largeur de la fenêtre
 	 * @param height : hauteur de la fenêtre
 	 */
-	public Game(String title, int width, int height) {
+	public Game(String title) {
 		this.title = title;
-		this.width = width;
-		this.height = height;
 	}
 	
 	/**
@@ -180,6 +187,22 @@ public class Game extends Observable{
 			player = new Player(this, 3, 3);
 			
 		}
+		else if(world.getId() == 4) {
+            world = new World(this, "res/worlds/level5.txt");
+            player = new Player(this, 2, 2);
+        }
+		else if(world.getId() == 5){
+			world = new World(this, "res/worlds/level6.txt");
+			player = new Player(this, 4, 2);
+		}
+		else if(world.getId() == 6){
+			world = new World(this, "res/worlds/level7.txt");
+			player = new Player(this, 4, 4);
+		}
+		else if(world.getId() == 7){
+			world = new World(this, "res/worlds/level8.txt");
+			player = new Player(this, 7, 13);
+		}
 		else {
 			backgroundSound.stopSound();
 			winSound.playSound();
@@ -253,42 +276,61 @@ public class Game extends Observable{
 		this.height = height;
 	}
 	
-	public Music getBGS() {
-		return backgroundSound;
-	}
-	
+	/**
+	 * @return la musique de mort du joueur
+	 */
 	public Music getDS() {
 		return deathSound;
 	}
 	
-	public Music getWS() {
-		return winSound;
-	}
-	
+	/**
+	 * @return la valeur du score du joueur
+	 */
 	public int getScore() {
 		return score;
 	}
 	
+	/**
+	 * Change la valeur du score du joueur
+	 * @param score : le score du joueur
+	 */
 	public void setScore(int score) {
 		this.score = score;
 	}
 	
+	/**
+	 * @return le nombre de fois qu'est mort le joueur
+	 */
 	public int getDeath() {
 		return nbDeath;
 	}
 	
+	/**
+	 * Change le nombre de fois que le joueur est mort
+	 * @param nbDeath : le nombre de fois que le joueur est mort
+	 */
 	public void setDeath(int nbDeath) {
 		this.nbDeath = nbDeath;
 	}
 	
+	/**
+	 * @return le resultat final du joueur
+	 */
 	public int getResult() {
 		return finalResult;
 	}
 	
+	/**
+	 * Change la valeur du résultat final du joueur
+	 * @param result : le résultat final du joueur
+	 */
 	public void setResult(int result) {
 		this.finalResult = result;
 	}
 	
+	/**
+	 * @return le temps que le joueur a mis pour finir les niveaux
+	 */
 	public int getTime() {
 		return totalTime;
 	}

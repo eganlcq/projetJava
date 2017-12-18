@@ -14,7 +14,7 @@ public class Launcher {
 
 	public static void main(String[] args) {
 		// Création du modèle
-		Game model = new Game("Pète une case !", 800, 600);
+		Game model = new Game("Pète une case !");
 		model.init();
 		//Création des contrôleurs : un pour chaque vue
 		//Chaque contrôleur doit avoir une référence vers le modèle pour pouvoir le commander
