@@ -67,11 +67,4 @@ public class Tile {
 		return false;
 	}
 	
-	/**
-	 * @return la valeur de l'id de la case
-	 */
-	public int getId() {
-		return id;
-	}
-	
 }

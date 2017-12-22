@@ -17,13 +17,13 @@ public class GameController {
 	// La vue graphique de l'architecture MVC
 	private GameView view;
 	
-	// Indique si oui où non la touche du haut est pressée
+	// Indique si oui ou non la touche du haut est pressée
 	public boolean up;
-	// Indique si oui où non la touche du bas est pressée
+	// Indique si oui ou non la touche du bas est pressée
 	public boolean down;
-	// Indique si oui où non la touche de gauche est pressée
+	// Indique si oui ou non la touche de gauche est pressée
 	public boolean left;
-	// Indique si oui où non la touche de droite est pressée
+	// Indique si oui ou non la touche de droite est pressée
 	public boolean right;
 	
 	/**

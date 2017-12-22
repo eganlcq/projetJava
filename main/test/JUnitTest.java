@@ -11,9 +11,13 @@ import main.entities.Mob;
 import main.entities.Player;
 import main.worlds.World;
 import model.Game;
-
+/**
+ * Cette classe va effectuer certains tests unitaires
+ * @author Octikoros
+ *
+ */
 public class JUnitTest{
-
+	
 	Player player;
 	Game game;
 	Mob mob;
